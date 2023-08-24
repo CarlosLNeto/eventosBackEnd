@@ -1,8 +1,8 @@
-package com.api.pontoeletronico.dtos;
+package com.api.eventos.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class UserDto {
+public class GerenteDto {
 
     @NotBlank
     private String name;

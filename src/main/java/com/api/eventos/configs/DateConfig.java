@@ -1,4 +1,4 @@
-package com.api.pontoeletronico.configs;
+package com.api.eventos.configs;
 
 import java.time.format.DateTimeFormatter;
 
@@ -14,7 +14,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 public class DateConfig {
 
     public static final String DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-    public static LocalDateTimeSerializer LOCAL_DATETIME_SERIALIZER = new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DATETIME_FORMAT));
+    public static LocalDateTimeSerializer LOCAL_DATETIME_SERIALIZER = new LocalDateTimeSerializer(
+            DateTimeFormatter.ofPattern(DATETIME_FORMAT));
 
     @Bean
     @Primary

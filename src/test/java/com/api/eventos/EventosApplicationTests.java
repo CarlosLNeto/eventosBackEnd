@@ -1,10 +1,10 @@
-package com.api.pontoeletronico;
+package com.api.eventos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PontoEletronicoApplicationTests {
+class EventosApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,15 +1,14 @@
-package com.api.pontoeletronico.services;
+package com.api.eventos.services;
 
+import java.util.List;
 import java.util.Optional;
-
-import com.api.pontoeletronico.models.UserModel;
-import com.api.pontoeletronico.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.api.eventos.models.UserModel;
+import com.api.eventos.repositories.UserRepository;
 
 @Service
 public class UserService {
@@ -37,8 +36,8 @@ public class UserService {
         return UserRepository.existsByCelular(celular);
     }
 
-    public Page<UserModel> findAll(Pageable pageable) {
-        return UserRepository.findAll(pageable);
+    public List<UserModel> findAll() {
+        return UserRepository.findAll();
     }
 
     public Optional<UserModel> findById(Long id) {

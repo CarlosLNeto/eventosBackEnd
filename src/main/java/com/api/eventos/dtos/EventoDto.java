@@ -15,6 +15,16 @@ public class EventoDto {
     private String local;
     @NotBlank
     private String tipoEvento;
+    @NotBlank
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
     public String getName() {
         return name;

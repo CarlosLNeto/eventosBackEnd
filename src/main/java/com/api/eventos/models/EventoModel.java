@@ -32,6 +32,17 @@ public class EventoModel implements Serializable {
     @Column(nullable = false)
     private Boolean status;
 
+    @Column(nullable = false)
+    private String descricao;
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public Boolean getStatus() {
         return status;
     }

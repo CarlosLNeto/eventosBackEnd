@@ -1,7 +1,6 @@
 package com.api.eventos.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -47,12 +46,12 @@ public class EventoController {
         return ResponseEntity.status(HttpStatus.OK).body(EventoService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneEvento(@PathVariable(value = "id") Long id) {
-        Optional<EventoModel> eventoModelOptional = EventoService.findById(id);
-        if (!eventoModelOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Evento not found.");
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<EventoModel>> getEventosByUserId(@PathVariable(value = "userId") Long userId) {
+        List<EventoModel> eventos = EventoService.findEventosByUserId(userId);
+        if (eventos.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(eventoModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body(eventos);
     }
 }

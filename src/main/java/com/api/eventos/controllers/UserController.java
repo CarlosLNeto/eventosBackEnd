@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.eventos.dtos.LoginUserDto;
 import com.api.eventos.dtos.LoginUserResponseDto;
 import com.api.eventos.dtos.UserDto;
+import com.api.eventos.dtos.UserEventDto;
 import com.api.eventos.models.UserModel;
+import com.api.eventos.services.EventoService;
 import com.api.eventos.services.UserService;
 
 import jakarta.validation.Valid;
@@ -32,6 +34,9 @@ import jakarta.validation.Valid;
 public class UserController {
 
     final UserService UserService;
+
+    @Autowired
+    private EventoService eventService;
 
     public UserController(UserService UserService) {
         this.UserService = UserService;
@@ -93,4 +98,16 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(UserModelOptional.get());
     }
+
+    @PostMapping("/selectEvent")
+    public ResponseEntity<String> selectEvent(@RequestBody @Valid UserEventDto userEventDto) {
+        boolean success = eventService.saveUserEvent(userEventDto.getUserId(), userEventDto.getEventId());
+
+        if (success) {
+            return ResponseEntity.status(HttpStatus.OK).body("Evento selecionado salvo.");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao salvar o evento selecionado.");
+        }
+    }
+
 }

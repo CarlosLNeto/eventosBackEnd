@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import java.io.Serializable;
@@ -19,10 +18,10 @@ public class EventoModel implements Serializable {
     private Long id;
 
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
     @Column(nullable = false)
-    private Date data;
+    private Date date;
 
     @Column(nullable = false)
     private String local;
@@ -30,8 +29,16 @@ public class EventoModel implements Serializable {
     @Column(nullable = false)
     private String tipoEvento;
 
-    @ManyToOne
-    private GerenteModel gerenteEventosModel;
+    @Column(nullable = false)
+    private Boolean status;
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -41,20 +48,20 @@ public class EventoModel implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getData() {
-        return data;
+    public Date getDate() {
+        return date;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getLocal() {
@@ -71,14 +78,6 @@ public class EventoModel implements Serializable {
 
     public void setTipoEvento(String tipoEvento) {
         this.tipoEvento = tipoEvento;
-    }
-
-    public GerenteModel getGerenteEventosModel() {
-        return gerenteEventosModel;
-    }
-
-    public void setGerenteEventosModel(GerenteModel gerenteEventosModel) {
-        this.gerenteEventosModel = gerenteEventosModel;
     }
 
 }

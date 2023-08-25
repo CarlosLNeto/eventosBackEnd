@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.eventos.dtos.GerenteDto;
+import com.api.eventos.dtos.LoginGerenteDto;
+import com.api.eventos.dtos.LoginGerenteResponseDto;
 import com.api.eventos.models.GerenteModel;
 import com.api.eventos.services.GerenteService;
 
@@ -54,6 +56,28 @@ public class GerenteController {
         GerenteModel.setEmailDate(LocalDateTime.now(ZoneId.of("UTC")));
         GerenteModel.setPassword(passwordEncoder.encode(GerenteDto.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(GerenteService.save(GerenteModel));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> loginUser(@RequestBody @Valid LoginGerenteDto loginGerenteDto) {
+        Optional<GerenteModel> gerenteModelOptional = GerenteService.findByLogin(loginGerenteDto.getLogin());
+
+        if (gerenteModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
+        }
+
+        GerenteModel gerenteModel = gerenteModelOptional.get();
+
+        if (!passwordEncoder.matches(loginGerenteDto.getPassword(), gerenteModel.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
+        }
+
+        LoginGerenteResponseDto loginGerenteResponseDto = new LoginGerenteResponseDto();
+        loginGerenteResponseDto.setName(gerenteModel.getName());
+        loginGerenteResponseDto.setId(gerenteModel.getId());
+        loginGerenteResponseDto.setEmail(gerenteModel.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body(loginGerenteResponseDto);
     }
 
     @GetMapping

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.eventos.dtos.LoginUserDto;
+import com.api.eventos.dtos.LoginUserResponseDto;
 import com.api.eventos.dtos.UserDto;
 import com.api.eventos.models.UserModel;
 import com.api.eventos.services.UserService;
@@ -54,6 +56,28 @@ public class UserController {
         UserModel.setEmailDate(LocalDateTime.now(ZoneId.of("UTC")));
         UserModel.setPassword(passwordEncoder.encode(UserDto.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body(UserService.save(UserModel));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> loginUser(@RequestBody @Valid LoginUserDto loginUserDto) {
+        Optional<UserModel> userModelOptional = UserService.findByLogin(loginUserDto.getLogin());
+
+        if (userModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
+        }
+
+        UserModel userModel = userModelOptional.get();
+
+        if (!passwordEncoder.matches(loginUserDto.getPassword(), userModel.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login credentials");
+        }
+
+        LoginUserResponseDto loginUserResponseDto = new LoginUserResponseDto();
+        loginUserResponseDto.setName(userModel.getName());
+        loginUserResponseDto.setId(userModel.getId());
+        loginUserResponseDto.setEmail(userModel.getEmail());
+
+        return ResponseEntity.status(HttpStatus.OK).body(loginUserResponseDto);
     }
 
     @GetMapping
